@@ -61,17 +61,17 @@
         'Windows NT 5.1': 'XP',
         'Windows NT 5.0': '2000',
 
-        '10.4': { name: 'OS X', version: '10.4 (Tiger)' },
-        '10.5': { name: 'OS X', version: '10.5 (Leopard)' },
-        '10.6': { name: 'OS X', version: '10.6 (Snow Leopard)' },
-        '10.7': { name: 'OS X', version: '10.7 (Lion)' },
-        '10.8': { name: 'OS X', version: '10.8 (Mountain Lion)' },
-        '10.9': { name: 'OS X', version: '10.9 (Mavericks)' },
-        '10.10': { name: 'OS X', version: '10.10 (Yosemite)' },
-        '10.11': { name: 'OS X', version: '10.11 (El Capitan)' },
-        '10.12': { name: 'macOS', version: '10.12 (Sierra)' },
-        '10.13': { name: 'macOS', version: '10.13 (High Sierra)' },
-        '10.14': { name: 'macOS', version: '10.14 (Mojave)' }
+        '10.4': 'Tiger',
+        '10.5': 'Leopard',
+        '10.6': 'Snow Leopard',
+        '10.7': 'Lion',
+        '10.8': 'Mountain Lion',
+        '10.9': 'Mavericks',
+        '10.10': 'Yosemite',
+        '10.11': 'El Capitan',
+        '10.12': 'Sierra',
+        '10.13': 'High Sierra',
+        '10.14': 'Mojave'
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent
@@ -194,16 +194,12 @@
                         browserName = 'Internet Explorer';
                         browserVersion = (tridentVersion + 4).toString();
                     }
-                } else if (t.name.substr(0, 15) === 'Intel Mac OS X ') {
-                    os = osNames[t.name.substr(15).split('_').slice(0, 2).join('.')];
-                    if (!os) {
-                        os = { name: 'OS X', version: null };
-                    }
-                } else if (t.name.substr(0, 13) === 'PPC Mac OS X ') {
-                    os = osNames[t.name.substr(13).split('_').slice(0, 2).join('.')];
-                    if (!os) {
-                        os = { name: 'OS X', version: null };
-                    }
+                } else if (t.name.indexOf('Mac OS X 10') >=  4) {
+                    var info = t.name.substr(t.name.indexOf('OS X') + 5);
+                    var key = (info.indexOf('_') > 1) ? info.split('_') : info.split('.');
+                    key = (key.length >= 2) ? key.slice(0, 2) : key.concat([0]);
+                    os.name = parseInt(key[1], 10) >= 12 ? 'macOS' : 'OS X';
+                    os.version = osNames[key.join('.')] ? key.join('.') + ' (' + osNames[key.join('.')] + ')' : key.join('.');
                 } else if (t.name.substr(0, 8) === 'Android ') {
                     os.name = 'Android';
                     os.version = t.name.substr(8).split('.').slice(0, 2).join('.');
