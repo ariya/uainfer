@@ -241,5 +241,6 @@
 
     exports.analyze = analyze;
     exports.scan = scan;
+    exports.version = '0.0.2'; // sync with package.json
 
 }));
