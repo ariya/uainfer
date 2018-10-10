@@ -1,5 +1,7 @@
 # uainfer
 
+[![Build Status](https://dev.azure.com/ariya77/uainfer/_apis/build/status/ariya.uainfer)](https://dev.azure.com/ariya77/uainfer/_build/latest?definitionId=1)
+
 This is a simple JavaScript library (MIT License) to infer the user agent from its claimed [User-Agent string](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent). The objective of uainfer to provide a human-friendly answer to the inquiry _"What browser am I using?"_.
 
 In the context of a web browser, the most common way to obtain the User-Agent string is from [the value](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorID/userAgent) of `navigator.userAgent`. In the context of an HTTP server, it can be retrieved from the `User-Agent` header field in the HTTP request.
