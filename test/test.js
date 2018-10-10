@@ -1,5 +1,5 @@
 var assert = require('assert');
-var uainfer = require('../');
+var uainfer = require('../src/uainfer.js');
 
 describe('Windows browsers', function() {
 

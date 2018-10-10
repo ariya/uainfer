@@ -2,9 +2,9 @@
   "name": "uainfer",
   "version": "0.0.1",
   "description": "Infer UA from its UA String",
-  "main": "index.js",
+  "main": "src/uainfer.js",
   "files": [
-    "index.js"
+    "src/uainfer.js"
   ],
   "dependencies": {},
   "devDependencies": {
