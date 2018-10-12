@@ -16,6 +16,8 @@ Example usage with Node.js REPL:
 'Firefox 41 on Android 4.4'
 ```
 
+(To use this library in a front-end application, see this [JSFiddle demo](http://jsfiddle.net/5467k1tp/))
+
 For browsers utilizing Chrome/Blink engine (Samsung Browser, Opera, Vivaldi, etc), the result can contain the corresponding equivalent version of Chrome:
 
 ```js
@@ -28,7 +30,6 @@ UserAgent {
      chromeFamily: { version: 65, fullVersion: '65.0.3325.183' } },
   os: { name: 'Windows', version: '10' } }
 ```
-
 
 Non-goals:
 * Recognize every single web browsers and obscure user agents out there.
