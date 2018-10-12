@@ -4,19 +4,21 @@
   "description": "Infer UA from its UA String",
   "main": "src/uainfer.js",
   "files": [
-    "src/uainfer.js"
+    "src/uainfer.js",
+    "test/example.js"
   ],
   "dependencies": {},
   "devDependencies": {
     "mocha": "~5.2.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/test.js"
   },
   "author": "Ariya Hidayat",
   "repository": {
     "type": "git",
     "url": "https://github.com/ariya/uainfer.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "runkitExampleFilename": "test/example.js"
 }
