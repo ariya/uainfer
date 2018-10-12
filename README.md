@@ -7,13 +7,13 @@ This is a simple JavaScript library (MIT License) to infer the user agent from i
 
 In the context of a web browser, the most common way to obtain the User-Agent string is from [the value](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorID/userAgent) of `navigator.userAgent`. In the context of an HTTP server, it can be retrieved from the `User-Agent` header field in the HTTP request.
 
-Example usage with Node.js REPL:
+Example usage with Node.js REPL (or [![try it on RunKit](https://badge.runkitcdn.com/uainfer.svg)](https://npm.runkit.com/uainfer)):
 
 ```js
 > uainfer = require('uainfer');
-> ua = uainfer.analyze('Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0');
+> ua = uainfer.analyze('Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.2)'
 > ua.toString()
-'Firefox 41 on Android 4.4'
+'Internet Explorer 7 on Windows XP'
 ```
 
 (To use this library in a front-end application, see this [JSFiddle demo](http://jsfiddle.net/5467k1tp/))
