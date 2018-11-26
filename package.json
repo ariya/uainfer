@@ -1,6 +1,6 @@
 {
   "name": "uainfer",
-  "version": "0.0.2",
+  "version": "0.5.0",
   "description": "Infer UA from its UA String",
   "main": "src/uainfer.js",
   "files": [
