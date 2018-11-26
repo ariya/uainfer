@@ -268,6 +268,7 @@ describe('iOS browsers', function() {
     it('should infer Edge 41 on iOS 10.3', function() {
         var ua = uainfer.analyze('Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/603.2.4 (KHTML, like Gecko) Mobile/14F89 Safari/603.2.4 EdgiOS/41.1.35.1');
         assert.equal(ua.toString(), 'Edge 41 on iOS 10.3');
+        assert.strictEqual(ua.browser.chromeFamily, null);
     });
 
 });
