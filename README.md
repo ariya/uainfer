@@ -11,7 +11,8 @@ Example usage with Node.js REPL (or [![try it on RunKit](https://badge.runkitcdn
 
 ```js
 > uainfer = require('uainfer');
-> ua = uainfer.analyze('Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.2)'
+> claim = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.2';
+> ua = uainfer.analyze(claim);
 > ua.toString()
 'Internet Explorer 7 on Windows XP'
 ```
