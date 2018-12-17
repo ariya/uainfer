@@ -74,7 +74,8 @@
         append(part);
     }
 
-    function inferOS(hints) {
+    // Stateless reducer: return a new `os` object based on `token` value.
+    function deduceOS(os, token) {
 
         var osNames = {
             'Windows NT 10.0': '10',
@@ -137,56 +138,68 @@
             { tag: 'CrOS', name: 'ChromeOS' }
         ];
 
-        var defaultOS = {
-            name: null,
-            version: null
-        };
+        function isPartialMatch(platform) {
+            return platform.tag === token.substr(0, platform.tag.length);
+        }
 
-        var os = hints.reduce(function (os, hint) {
-            var match = platforms.find(function (p) {
-                return p.tag === hint.substr(0, p.tag.length);
-            });
-            if (match) {
-                var name = match.name ? match.name : match.tag;
-                os.name = name.split(' ').shift();
-                os.version = match.fn ? match.fn(hint) : null;
+        var match = platforms.find(isPartialMatch);
+        if (match) {
+            var name = match.name ? match.name : match.tag;
+            os.name = name.split(' ').shift();
+            os.version = match.fn ? match.fn(token) : null;
+
+            if (os.name === 'macOS') {
+                // For El Capitan (10.11) and older versions.
+                os.name = (parseInt(os.version.replace('10.', ''), 10) <= 11) ? 'OS X' : 'macOS';
             }
-            return os;
-        }, defaultOS);
-
-        if (os.name === 'macOS') {
-            // For El Capitan (10.11) and older versions.
-            os.name = (parseInt(os.version.replace('10.', ''), 10) <= 11) ? 'OS X' : 'macOS';
         }
 
         return os;
     }
 
-    function inferChromeFamily(hints, versions) {
-        function findChromeBased(family, hint) {
-            // Only Edge on Android is based on Chrome/WebView/Blink:
-            // https://blogs.windows.com/msedgedev/2017/10/05/microsoft-edge-ios-android-developer/
-            family |= (hint === 'Chrome');
-            family = (hint === 'EdgiOS' || hint === 'Edge') ? false : family;
-            return family;
-        }
+    function scan(UserAgentString) {
+        var tokens = [];
+        tokenize(UserAgentString, function (name, version) {
+            tokens.push({
+                name: name,
+                version: version
+            });
+        });
+        return tokens;
+    }
 
-        // For all Chrome-derived browsers, find the equivalent chrome version
-        var chromeFamily = null;
-        if (hints.reduce(findChromeBased, false)) {
-            // https://developer.chrome.com/multidevice/user-agent
-            var equivalentChromeVersion = versions.Chrome;
-            chromeFamily = {
-                version: parseInt(equivalentChromeVersion, 10),
-                fullVersion: equivalentChromeVersion
+    // Finite state machine: return a new `state` object based on the inputs.
+    function deduceBrowser(state, token, version) {
+        if (!state.data) {
+            state.data = {
+                tokens: [],
+                versions: {},
+                chromeFamily: null
             };
         }
 
-        return chromeFamily;
-    }
+        state.data.tokens.push(token);
+        if (version) {
+            state.data.versions[token] = version;
+        }
 
-    function inferBrowser(hints, versions) {
-       var heuristics = [
+        switch (token) {
+            case 'Chrome':
+                state.browser.chromeFamily = {
+                    version: parseInt(version, 10),
+                    fullVersion: version
+                };
+                break;
+
+            case 'EdgiOS':
+            case 'Edge':
+                // Only Edge on Android is based on Chrome/WebView/Blink:
+                // https://blogs.windows.com/msedgedev/2017/10/05/microsoft-edge-ios-android-developer/
+                state.browser.chromeFamily = null;
+                break;
+        }
+
+        var heuristics = [
             { seq: ['Gecko', 'Firefox'], name:  'Firefox' },
 
             // Safari and derived
@@ -216,19 +229,11 @@
             { seq: ['Chrome', 'UCBrowser', 'Safari'], name: 'UCBrowser' }
         ];
 
-        var browser = {
-            name: 'Unknown',
-            version: null,
-            fullVersion: null,
-            chromeFamily: null
-        };
-
-        var mozillaVersion = versions.Mozilla;
-        if (mozillaVersion === '4.0' || mozillaVersion === '5.0') {
-            browser = heuristics.reduce(function (browser, heuristic) {
+        if (state.data.versions.Mozilla === '4.0' || state.data.versions.Mozilla === '5.0') {
+            state.browser = heuristics.reduce(function (browser, heuristic) {
                 var sequence = heuristic.seq;
                 var positions = sequence.map(function (n) {
-                    return hints.indexOf(n);
+                    return state.data.tokens.indexOf(n);
                 });
 
                 function difference(result, value) {
@@ -244,55 +249,49 @@
                 var monotonicallyIncreasing = positions.reduce(difference, [0]).every(isPositive);
                 if (monotonicallyIncreasing) {
                     var field = heuristic.ver ? heuristic.ver : heuristic.name;
-                    var fullVersion = heuristic.at ? heuristic.at : versions[field];
+                    var fullVersion = heuristic.at ? heuristic.at : state.data.versions[field];
                     browser.name = heuristic.name;
                     browser.version =  (browser.name === 'Edge') ? parseInt(fullVersion, 10) : parseFloat(fullVersion);
                     browser.fullVersion = fullVersion;
                 }
                 return browser;
-            }, browser);
-
-            browser.chromeFamily = inferChromeFamily(hints, versions);
+            }, state.browser);
 
             // Special case of override in case of Tizen browser (looks very similar to Safari)
-            var isTizen = hints.find(function (h) {
+            var isTizen = state.data.tokens.find(function (h) {
                 return h.substr(0, 5) === 'Tizen';
             });
-            browser.name = isTizen ? 'Tizen' : browser.name;
+            state.browser.name = isTizen ? 'Tizen' : state.browser.name;
         }
 
-        return browser;
-    }
-
-    function scan(UserAgentString) {
-        var tokens = [];
-        tokenize(UserAgentString, function (name, version) {
-            tokens.push({
-                name: name,
-                version: version
-            });
-        });
-        return tokens;
+        return state;
     }
 
     function analyze(UserAgentString) {
-        // Example: 'Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0'
-        // hints will be [ 'Mozilla', 'Android 4.4', 'Mobile', 'rv:41.0', 'Gecko', 'Firefox' ]
-        // and versions will be   { Mozilla: '5.0', Gecko: '41.0', Firefox: '41.0' }
-        var hints = [];
-        var versions = {};
-        tokenize(UserAgentString, function (name, version) {
-            hints.push(name);
-            if (typeof version === 'string') {
-                versions[name] = version;
-            }
+        var os = {
+            name: null,
+            version: null
+        };
+        var browser = {
+            name: 'Unknown',
+            version: null,
+            fullVersion: null,
+            chromeFamily: null
+        };
+        var state = {
+            browser: browser
+        };
+
+        tokenize(UserAgentString, function (token, version) {
+            os = deduceOS(os, token);
+            state = deduceBrowser(state, token, version);
         });
 
-        return new UserAgent(inferBrowser(hints, versions), inferOS(hints));
+        return new UserAgent(state.browser, os);
     }
 
     exports.analyze = analyze;
     exports.scan = scan;
-    exports.version = '0.5.0'; // sync with package.json
+    exports.version = '0.6.0'; // sync with package.json
 
 }));
