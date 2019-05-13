@@ -275,6 +275,11 @@ describe('iOS browsers', function() {
 
 describe('FireOS browsers', function() {
 
+    it('should infer Silk 3', function() {
+        var ua = uainfer.analyze('Mozilla/5.0 (Linux; U; en-gb; KFTT Build/IML74K) AppleWebKit/535.19 (KHTML, like Gecko) Silk/3.0 Safari/535.19');
+        assert.equal(ua.toString(), 'Silk 3 on Linux');
+    });
+
     it('should infer Silk 64.3 on Android 5.1', function() {
         var ua = uainfer.analyze('Mozilla/5.0 (Linux; Android 5.1.1; KFGIWI Build/LVY48F) AppleWebKit/537.36 (KHTML, like Gecko) Silk/64.3.4 like Chrome/64.0.3282.137 Safari/537.36');
         assert.equal(ua.toString(), 'Silk 64.3 on Android 5.1');

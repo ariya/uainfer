@@ -206,6 +206,7 @@
             { seq: ['AppleWebKit', 'KHTML, like Gecko', 'Version', 'Safari'], name: 'Safari', ver: 'Version' },
             { seq: ['AppleWebKit', 'CriOS', 'Mobile', 'Safari'], name: 'Chrome', ver: 'CriOS' },
             { seq: ['AppleWebKit', 'Mobile', 'Safari', 'EdgiOS'], name: 'Edge', ver: 'EdgiOS' },
+            { seq: ['AppleWebKit', 'Silk', 'Safari'], name: 'Silk' },
 
             // Authentic Chrome
             { seq: ['AppleWebKit', 'Chrome', 'Safari'], name: 'Chrome' },
