@@ -207,6 +207,7 @@
             { seq: ['AppleWebKit', 'CriOS', 'Mobile', 'Safari'], name: 'Chrome', ver: 'CriOS' },
             { seq: ['AppleWebKit', 'Mobile', 'Safari', 'EdgiOS'], name: 'Edge', ver: 'EdgiOS' },
             { seq: ['AppleWebKit', 'Silk', 'Safari'], name: 'Silk' },
+            { seq: ['AppleWebKit', 'Version', 'Kindle'], name: 'Kindle' },
 
             // Authentic Chrome
             { seq: ['AppleWebKit', 'Chrome', 'Safari'], name: 'Chrome' },

@@ -273,9 +273,14 @@ describe('iOS browsers', function() {
 
 });
 
-describe('FireOS browsers', function() {
+describe('Kindle browsers', function() {
 
-    it('should infer Silk 3', function() {
+    it('should infer Kindle (e-reader) experimental browser', function() {
+        var ua = uainfer.analyze('Mozilla/5.0 (Linux; U; en-US) AppleWebKit/528.5+ (KHTML, like Gecko, Safari/528.5+) Version/4.0 Kindle/3.0 (screen 600×800; rotate)');
+        assert.equal(ua.toString(), 'Kindle 3 on Linux');
+    });
+
+    it('should infer Silk 3 on Linux', function() {
         var ua = uainfer.analyze('Mozilla/5.0 (Linux; U; en-gb; KFTT Build/IML74K) AppleWebKit/535.19 (KHTML, like Gecko) Silk/3.0 Safari/535.19');
         assert.equal(ua.toString(), 'Silk 3 on Linux');
     });
