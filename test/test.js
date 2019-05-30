@@ -56,6 +56,12 @@ describe('Windows browsers', function() {
         assert.strictEqual(ua.browser.chromeFamily, null);
     });
 
+    it('should infer Edge 18 on Windows 10', function() {
+        var ua = uainfer.analyze('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362');
+        assert.equal(ua.toString(), 'Edge 18 on Windows 10');
+        assert.strictEqual(ua.browser.chromeFamily, null);
+    });
+
     it('should infer Chrome 45 on Windows 8', function() {
         var ua = uainfer.analyze('Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36');
         assert.equal(ua.toString(), 'Chrome 46 on Windows 8');
