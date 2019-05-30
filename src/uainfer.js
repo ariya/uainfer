@@ -223,6 +223,7 @@
             { seq: ['Trident/7.0'], name: 'Internet Explorer', at: '11.0' },
 
             // Chrome-based and other impersonators
+            { seq: ['Chrome', 'Safari', 'Edg'], name: 'Edge', ver: 'Edg' },
             { seq: ['AppleWebKit', 'Silk', 'Chrome', 'Safari'], name: 'Silk' },
             { seq: ['Chrome', 'Safari', 'Vivaldi'], name: 'Vivaldi' },
             { seq: ['Chrome', 'Safari', 'OPR'], name: 'Opera', ver: 'OPR' },
