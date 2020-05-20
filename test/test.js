@@ -155,6 +155,11 @@ describe('macOS browsers', function() {
         assert.equal(ua.toString(), 'Safari 12 on macOS 10.14 (Mojave)');
     });
 
+    it('should infer Safari 13 on macOS 10.15 (Catalina)', function() {
+        var ua = uainfer.analyze('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Safari/605.1.15');
+        assert.equal(ua.toString(), 'Safari 13 on macOS 10.15 (Catalina)');
+    });
+
     it('should infer Chrome 42 on OS X 10.10 (Yosemite)', function() {
         var ua = uainfer.analyze('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36');
         assert.equal(ua.toString(), 'Chrome 42 on OS X 10.10 (Yosemite)');
