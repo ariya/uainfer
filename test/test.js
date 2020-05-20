@@ -1,6 +1,12 @@
 var assert = require('assert');
 var uainfer = require('../src/uainfer.js');
 
+var packageMetadata = require('../package.json');
+
+it('should have the correct version', function() {
+    assert.equal(uainfer.version, packageMetadata.version);
+});
+
 describe('Windows browsers', function() {
 
     it('should infer Internet Explorer 6 on Windows XP', function() {
