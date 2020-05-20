@@ -1,7 +1,9 @@
 # uainfer
 
-![NpmLicense](https://img.shields.io/npm/l/uainfer.svg)
-[![NPM version](https://img.shields.io/npm/v/uainfer.svg)](https://www.npmjs.com/package/uainfer)
+[![npm version](https://img.shields.io/npm/v/uainfer)](https://www.npmjs.com/package/uainfer)
+[![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/uainfer.svg)](https://bundlephobia.com/result?p=uainfer)
+[![GitHub license](https://img.shields.io/github/license/ariya/tebakmasa)](https://github.com/ariya/uainfer/blob/master/LICENSE)
+[![Tests](https://github.com/ariya/tebakmasa/workflows/Tests/badge.svg)](https://github.com/ariya/uainfer/actions)
 
 This is a simple JavaScript library to infer the user agent from its claimed [User-Agent string](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent). The objective of uainfer to provide a human-friendly answer to the inquiry _"What browser am I using?"_.
 
