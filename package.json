@@ -7,6 +7,9 @@
     "src/uainfer.js",
     "test/example.js"
   ],
+  "engines": {
+    "node": ">=4.2.0"
+  },
   "dependencies": {},
   "devDependencies": {
     "mocha": "~5.2.0"
