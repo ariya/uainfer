@@ -237,6 +237,11 @@ describe('Android browsers', function() {
         assert.equal(ua.browser.chromeFamily.version, 59);
     });
 
+    it('should infer Samsung Browser 11.2 on Android 9', function() {
+        var ua = uainfer.analyze('Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G955U) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/11.2 Chrome/75.0.3770.143 Mobile Safari/537.36');
+        assert.equal(ua.toString(), 'Samsung Browser 11.2 on Android 9');
+        assert.equal(ua.browser.chromeFamily.version, 75);
+    });
     it('should infer Firefox 41 on Android 4.4', function() {
         var ua = uainfer.analyze('Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0');
         assert.equal(ua.toString(), 'Firefox 41 on Android 4.4');
