@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: 10
+          cache: 'npm'
       - run: npm ci
       - run: npm test
 
@@ -20,10 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: 10
           registry-url: https://registry.npmjs.org/
+          cache: 'npm'
       - run: npm ci
       - run: npm publish --access public
         env:
