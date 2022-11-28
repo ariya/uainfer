@@ -21,7 +21,12 @@
   "devDependencies": {
     "mocha": "~5.2.0"
   },
+  "resolutions": {
+    "minimatch": "3.0.8",
+    "minimist": "1.2.6"
+  },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "test": "mocha test/test.js"
   },
   "author": "Ariya Hidayat",
